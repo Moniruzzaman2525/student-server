@@ -59,7 +59,7 @@ const studentZodSchema = z.object({
   localGuardian: localGuardianSchema,
   profileImg: z.string().optional(),
   isActive: z.enum(['active', 'block']).optional().default('active'),
-  isDeleted: z.boolean()
+  isDeleted: z.boolean(),
 });
 
 export default studentZodSchema;

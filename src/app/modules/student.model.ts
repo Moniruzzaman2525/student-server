@@ -89,68 +89,78 @@ const localGuardianSchema = new Schema<TLocalGuardian>({
   },
 });
 
-const studentSchema = new Schema<TStudent, StudentModel>({
-  id: { type: String, required: true, unique: true },
-  password: {
-    type: String,
-    required: true,
-    max: [20, 'Pass word maximum 20 character'],
-  },
-  name: {
-    type: userNameSchema,
-    required: [true, 'Name is required'],
-  },
-  gender: {
-    type: String,
-    enum: {
-      values: ['male', 'female', 'other'],
-      message: '{VALUE} is not supported',
+const studentSchema = new Schema<TStudent, StudentModel>(
+  {
+    id: { type: String, required: true, unique: true },
+    password: {
+      type: String,
+      required: true,
+      max: [20, 'Pass word maximum 20 character'],
     },
-    required: true,
-  },
-  dateOfBirth: { type: String },
-  email: { type: String, required: [true, 'Email is required'], unique: true },
-  contactNo: { type: String, required: [true, 'Student contact is required'] },
-  emergencyContactNo: {
-    type: String,
-    required: [true, 'Student emergency contact number is required'],
-  },
+    name: {
+      type: userNameSchema,
+      required: [true, 'Name is required'],
+    },
+    gender: {
+      type: String,
+      enum: {
+        values: ['male', 'female', 'other'],
+        message: '{VALUE} is not supported',
+      },
+      required: true,
+    },
+    dateOfBirth: { type: String },
+    email: {
+      type: String,
+      required: [true, 'Email is required'],
+      unique: true,
+    },
+    contactNo: {
+      type: String,
+      required: [true, 'Student contact is required'],
+    },
+    emergencyContactNo: {
+      type: String,
+      required: [true, 'Student emergency contact number is required'],
+    },
 
-  presentAddress: {
-    type: String,
-    required: [true, 'Student present address is required'],
+    presentAddress: {
+      type: String,
+      required: [true, 'Student present address is required'],
+    },
+    permanentAddress: {
+      type: String,
+      required: [true, 'Student permanent address is required'],
+    },
+    bloodGroup: {
+      type: String,
+      enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+    },
+    guardian: {
+      type: guardianSchema,
+      required: [true, 'Guardian is required'],
+    },
+    localGuardian: {
+      type: localGuardianSchema,
+      required: [true, 'Local guardian is required'],
+    },
+    profileImg: { type: String },
+    isActive: {
+      type: String,
+      enum: ['active', 'block'],
+      default: 'active',
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
-  permanentAddress: {
-    type: String,
-    required: [true, 'Student permanent address is required'],
+  {
+    toJSON: {
+      virtuals: true,
+    },
   },
-  bloodGroup: {
-    type: String,
-    enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
-  },
-  guardian: {
-    type: guardianSchema,
-    required: [true, 'Guardian is required'],
-  },
-  localGuardian: {
-    type: localGuardianSchema,
-    required: [true, 'Local guardian is required'],
-  },
-  profileImg: { type: String },
-  isActive: {
-    type: String,
-    enum: ['active', 'block'],
-    default: 'active',
-  },
-  isDeleted: {
-    type: Boolean,
-    default: false,
-  },
-},{
-  toJSON: {
-    virtuals: true 
-  }
-});
+);
 
 // pre save middleware/hook : will work on create or save
 
@@ -214,7 +224,7 @@ studentSchema.statics.isUserExists = async function (id: string) {
 //virtual
 
 studentSchema.virtual('fullName').get(function () {
-  return (`${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`)
+  return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
 });
 
 export const Student = model<TStudent, StudentModel>('Student', studentSchema);

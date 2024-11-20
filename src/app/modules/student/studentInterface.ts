@@ -39,14 +39,13 @@ export type TStudent = {
   localGuardian: TLocalGuardian;
   profileImg?: string;
   isActive: 'active' | 'block';
-  isDeleted: boolean
+  isDeleted: boolean;
 };
 
 // for creating static
 export interface StudentModel extends Model<TStudent> {
-  isUserExists(id: string): Promise<TStudent | null>
+  isUserExists(id: string): Promise<TStudent | null>;
 }
-
 
 // for creating instance
 

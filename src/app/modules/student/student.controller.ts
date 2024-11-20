@@ -15,12 +15,12 @@ const createStudent = async (req: Request, res: Response) => {
         message: 'Something went wrong',
         error: error.details,
       });
-      return
+      return;
     }
     //data validation using zod
     // const zodParseData = studentZodSchema.parse(studentData);
     console.log(error);
-    
+
     const result = await StudentServices.createStudentIntoDB(value);
 
     res.status(200).json({
@@ -93,5 +93,5 @@ export const StudentControllers = {
   createStudent,
   getAllStudents,
   getSingleStudent,
-  deleteSingleStudent
+  deleteSingleStudent,
 };

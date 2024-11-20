@@ -65,6 +65,9 @@ const userNameSchema = Joi.object({
     id: Joi.string().required().messages({
       'string.empty': 'ID is required',
     }),
+    password: Joi.string().required().messages({
+      'string.empty': 'ID is required',
+    }),
     name: userNameSchema.required().messages({
       'object.base': 'Name is required',
     }),
@@ -111,6 +114,7 @@ const userNameSchema = Joi.object({
     }),
     profileImg: Joi.string().uri(),
     isActive: Joi.string().valid('active', 'block').default('active'),
+    isDeleted: Joi.boolean() 
   });
 
 

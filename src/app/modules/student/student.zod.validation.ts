@@ -8,7 +8,7 @@ const userNameSchema = z.object({
     .nonempty('First Name is required')
     .refine(
       (value) => /^[A-Z][a-z]*$/.test(value),
-      'First Name must be in capitalize format'
+      'First Name must be in capitalize format',
     ),
   middleName: z.string().optional(),
   lastName: z
@@ -37,7 +37,8 @@ const localGuardianSchema = z.object({
 
 // Zod schema for Student
 const studentZodSchema = z.object({
-  id: z.string().nonempty('ID is required'),
+  id: z.string(),
+  password: z.string().max(20),
   name: userNameSchema,
   gender: z.enum(['male', 'female', 'other'], {
     errorMap: () => ({ message: 'Gender must be male, female, or other' }),
@@ -58,7 +59,7 @@ const studentZodSchema = z.object({
   localGuardian: localGuardianSchema,
   profileImg: z.string().optional(),
   isActive: z.enum(['active', 'block']).optional().default('active'),
+  isDeleted: z.boolean()
 });
 
-
-export default studentZodSchema
+export default studentZodSchema;
